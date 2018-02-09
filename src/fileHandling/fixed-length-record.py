@@ -7,30 +7,33 @@ L= sys.argv[3]
 B= sys.argv[4]
 
 # Your Code Goes Here
-recordLength= 16
-start= 0
-records= []
-
+record = []
+recordList = []
 # Get the file
-input = open(P, 'r')
-data = input.read()
+file = open(P, 'r')
+data = file.read()
+file.close()
 
-# use the substring function to read all the records
-while( (len(data) - start) >= recordLength):
-  record= data[start:start + recordLength]
-  records.append(record)
-  start+= recordLength
-  
-input.close()
-output = open(P, 'w')
+# read all the records
+while len(data) > 0:
+    record.append(data[0:16])
+    record.append(data[16:32])
+    record.append(data[32:40])
+    recordList.append(record)
+    data = data[40:]
+
+# Find and replace
+output = ''
+for i in range(0, len(recordList)):
+    thisRecord = recordList[i]
+    if thisRecord[0].strip() == F:
+        if thisRecord[1].strip() == L:
+            thisRecord[2] = B
+
 
 # print out all of our records
-for i in range(0,len(records)):
-  if record[i] == F:#F,L in record[i]
-    replace_record = 0
-      # replace_record = replace B
-  else:
-    replace_record = 0
+output += thisRecord[0] + thisRecord[1] + thisRecord[2]
 
-output.write(str(replace_record))
-output.close()
+file = open(P, 'w')
+file.write(output)
+file.close()
