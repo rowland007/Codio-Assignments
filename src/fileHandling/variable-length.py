@@ -15,38 +15,50 @@ B= sys.argv[4]
 #
 # Loads the file at filepath 
 # Returns a 2d array with the data
-# 
+#
+
+
 def load2dArrayFromFile(filepath):
-  # Your code goes here:
-  file = open(filepath, 'r')
-  data = file.read()
-  return data
+    # Your code goes here:
+    file = open(filepath, 'r')
+    data = file.read()
+    lines = data.split("\n")
+    for x in range(0, len(lines)):
+        lines[x] = lines[x].split("|")
+    return data
+
+
 #
 # Searches the 2d array 'records' for firstname, lastname.
 # Returns the index of the record or -1 if no record exists
 # 
 def findIndex(records, firstname, lastname):
-  # Your code goes here:
-  for row in records:
-    if firstname == records[row]:
-      for col in row:
-        if lastname == records[row][col]:
-          return row
-    else:
-      return -1
+    # Your code goes here:
+    for row in records:
+        if firstname == records[row][0]:
+            if lastname == records[row][1]:
+                return row
+        else:
+            return -1
 # Sets the birthday of the record at the given index
 # Returns: nothing
+
+
 def setBirthday(records, index, newBirthday):
-  # Your code goes here:
-  if index == -1:
-    return -1
-  else:
-    records[index][2] = newBirthday
+    # Your code goes here:
+    if index == -1:
+      return -1
+    else:
+      records[index][2] = newBirthday
 # Convert the 2d array back into a string
 # Return the text of the 2d array
+
+
 def makeTextFrom2dArray(records):
-  # Your code goes here:
-  
+    # Your code goes here:
+    for x in range(0, len(records)):
+        records[x] = "|".join(records[x])
+    return "\n".join(records)
 # ----------------------------------------------------------------
 # 
 #  Our main code body, where we call our functions.
@@ -67,3 +79,6 @@ output= makeTextFrom2dArray(records)
 
 # Your code goes here
 # write the text string out to the file
+file = open(P, 'w')
+file.write(output)
+file.close()
